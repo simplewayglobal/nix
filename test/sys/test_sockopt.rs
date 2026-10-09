@@ -767,6 +767,9 @@ fn can_get_peercred_on_unix_socket() {
 
 #[test]
 #[cfg(target_os = "linux")]
+// QEMU user mode passes unknown SOL_SOCKET options through as an int: with
+// more than one group the kernel reports ERANGE and QEMU drops the size
+#[cfg_attr(qemu, ignore)]
 fn test_so_peer_groups() {
     use nix::sys::socket::{socketpair, AddressFamily, SockFlag, SockType};
     use nix::unistd::getgroups;
